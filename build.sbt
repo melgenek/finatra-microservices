@@ -1,4 +1,6 @@
 import sbt.Keys._
+import sbtassembly.AssemblyKeys
+import sbtassembly.AssemblyPlugin.autoImport._
 
 scalaVersion := "2.11.8"
 
@@ -53,15 +55,56 @@ lazy val scalaVersionSettings = Seq(
 	scalaVersion := "2.11.8"
 )
 
-lazy val common = project.in(file("common"))
-	.settings(scalaVersionSettings ++ commonSettings: _*)
-	.settings(commonTestSettings)
+lazy val noPackageSettings = Seq(
+	Keys.`package` := file(""),
+	packageBin in Global := file(""),
+	packagedArtifacts := Map()
+)
 
-lazy val talk_service = project.in(file("talk_service"))
-	.settings(scalaVersionSettings: _*)
+lazy val dockerPackageSettings = Seq(
+	sbt.Keys.`package` := {
+		assembly.value
+		docker.value
+		file("")
+	},
+	dockerfile in docker := {
+		val artifact: File = assembly.value
+		val artifactTargetPath = s"/app/${artifact.name}"
+		new Dockerfile {
+			from("java")
+			add(artifact, artifactTargetPath)
+			entryPoint("java", "-jar", artifactTargetPath)
+			expose(8888)
+			expose(9990)
+		}
+	},
+	imageNames in docker := Seq(
+		ImageName(s"scalatalk/${name.value}:latest")
+	),
+	assembly := {
+		(compile in Compile).value
+		assembly.value
+	},
+	assemblyMergeStrategy in assembly := {
+		case "BUILD" => MergeStrategy.discard
+		case x if x.endsWith("io.netty.versions.properties") => MergeStrategy.discard
+		case other => MergeStrategy.defaultMergeStrategy(other)
+	}
+)
+
+lazy val common = project.in(file("common"))
+	.settings(scalaVersionSettings)
+	.settings(commonSettings)
 	.settings(commonTestSettings)
-	.dependsOn(common)
+	.settings(noPackageSettings)
+
+lazy val `talk-service` = project.in(file("talk-service"))
+	.settings(scalaVersionSettings)
+	.settings(dockerPackageSettings)
+	.dependsOn(common % "compile->compile;test->test")
+	.enablePlugins(DockerPlugin)
 
 lazy val root = project.in(file("."))
-	.aggregate(common, talk_service)
+	.settings(noPackageSettings)
+	.aggregate(common, `talk-service`)
 

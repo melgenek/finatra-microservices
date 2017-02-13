@@ -1,0 +1,5 @@
+talk-service:
+  image: scalatalk/talk-service
+  ports:
+   - 8888:8888
+   - 9990:9990
