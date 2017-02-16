@@ -1,8 +1,5 @@
 import sbt.Keys._
-import sbtassembly.AssemblyKeys
 import sbtassembly.AssemblyPlugin.autoImport._
-
-scalaVersion := "2.11.8"
 
 lazy val versions = new {
 	val finatra = "2.8.0"
@@ -105,6 +102,7 @@ lazy val `talk-service` = project.in(file("talk-service"))
 	.enablePlugins(DockerPlugin)
 
 lazy val root = project.in(file("."))
+	.settings(scalaVersionSettings)
 	.settings(noPackageSettings)
 	.aggregate(common, `talk-service`)
 
