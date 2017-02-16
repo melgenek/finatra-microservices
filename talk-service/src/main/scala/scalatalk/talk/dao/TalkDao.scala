@@ -6,8 +6,8 @@ import com.twitter.util.Future
 import slick.jdbc.JdbcBackend
 
 import scalatalk.common.module.SlickDatabaseModule.SlickDatabaseApi._
-import scalatalk.talk.entity.Talk
 import scalatalk.common.util.FutureUtils._
+import scalatalk.talk.entity.Talk
 
 class TalkDao @Inject()(db: JdbcBackend.DatabaseDef) {
 
@@ -40,6 +40,24 @@ class TalkDao @Inject()(db: JdbcBackend.DatabaseDef) {
 
 	def getAll: Future[Seq[Talk]] = {
 		db.run(talks.result).asTwitterFuture
+	}
+
+	def findById(talkId: String): Future[Option[Talk]] = {
+		db.run {
+			talks.filter(_.id === talkId).take(1).result.headOption
+		}.asTwitterFuture
+	}
+
+	def findBySpeakerId(speakerId: String): Future[Option[Talk]] = {
+		db.run {
+			talks.filter(_.speaker === speakerId).take(1).result.headOption
+		}.asTwitterFuture
+	}
+
+	def findByEventId(eventId: String): Future[Option[Talk]] = {
+		db.run {
+			talks.filter(_.event === eventId).take(1).result.headOption
+		}.asTwitterFuture
 	}
 
 }

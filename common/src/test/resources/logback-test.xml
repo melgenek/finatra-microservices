@@ -6,15 +6,7 @@
         </encoder>
     </appender>
 
-    <logger name="scalatalk" level="DEBUG"/>
+    <logger name="scalatalk" level="WARN"/>
     <logger name="com.twitter" level="WARN"/>
-
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-    </root>
-
-    <logger name="com.twitter.finatra.http.filters.AccessLoggingFilter" level="INFO" additivity="true">
-        <appender-ref ref="STDOUT"/>
-    </logger>
 
 </configuration>
