@@ -12,6 +12,7 @@ import scalatalk.talk.entity.Talk
 class TalkDao @Inject()(db: JdbcBackend.DatabaseDef) {
 
 	private class Talks(tag: Tag) extends Table[Talk](tag, "talks") {
+
 		def id = column[String]("id", O.PrimaryKey)
 
 		def speaker = column[String]("speaker")

@@ -101,6 +101,12 @@ lazy val `talk-service` = project.in(file("talk-service"))
 	.dependsOn(common % "compile->compile;test->test")
 	.enablePlugins(DockerPlugin)
 
+lazy val `speaker-service` = project.in(file("speaker-service"))
+	.settings(scalaVersionSettings)
+	.settings(dockerPackageSettings)
+	.dependsOn(common % "compile->compile;test->test")
+	.enablePlugins(DockerPlugin)
+
 lazy val root = project.in(file("."))
 	.settings(scalaVersionSettings)
 	.settings(noPackageSettings)
