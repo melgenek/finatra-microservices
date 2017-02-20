@@ -5,13 +5,19 @@ import javax.inject.Inject
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 
-import scalatalk.speaker.dao.SpeakerDao
+import scalatalk.speaker.service.SpeakerService
 
-class SpeakerController @Inject()(speakerDao: SpeakerDao) extends Controller {
+class SpeakerController @Inject()(speakerService: SpeakerService) extends Controller {
 
 	get("/speakers/:id/simple") { req: Request =>
 		val speakerId = req.getParam("id")
-		speakerDao.findById(speakerId)
+		speakerService.findSpeakerById(speakerId)
 	}
+
+	get("/speakers/:id") { req: Request =>
+		val speakerId = req.getParam("id")
+		speakerService.findSpeakerWithTalksById(speakerId)
+	}
+
 
 }

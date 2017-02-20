@@ -2,7 +2,7 @@ package scalatalk.talk
 
 import com.twitter.finatra.http.routing.HttpRouter
 
-import scalatalk.common.controller.ScalaTalkServer
+import scalatalk.common.server.ScalaTalkServer
 import scalatalk.talk.controller.TalkController
 
 object TalkServerMain extends TalkServer

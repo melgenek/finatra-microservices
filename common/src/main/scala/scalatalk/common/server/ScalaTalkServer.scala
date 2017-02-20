@@ -1,4 +1,4 @@
-package scalatalk.common.controller
+package scalatalk.common.server
 
 import com.twitter.finatra.http.HttpServer
 

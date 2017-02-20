@@ -3,8 +3,8 @@ talk-service:
   ports:
    - 8888:8888
    - 9990:9990
-speaker-service:
-  image: scalatalk/speaker-service
-  ports:
-   - 8889:8888
-   - 9991:9990
+#speaker-service:
+#  image: scalatalk/speaker-service
+#  ports:
+#   - 8889:8888
+#   - 9991:9990

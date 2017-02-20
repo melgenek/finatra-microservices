@@ -49,15 +49,15 @@ class TalkDao @Inject()(db: JdbcBackend.DatabaseDef) {
 		}.asTwitterFuture
 	}
 
-	def findBySpeakerId(speakerId: String): Future[Option[Talk]] = {
+	def findBySpeakerId(speakerId: String): Future[Seq[Talk]] = {
 		db.run {
-			talks.filter(_.speaker === speakerId).take(1).result.headOption
+			talks.filter(_.speaker === speakerId).take(1).result
 		}.asTwitterFuture
 	}
 
-	def findByEventId(eventId: String): Future[Option[Talk]] = {
+	def findByEventId(eventId: String): Future[Seq[Talk]] = {
 		db.run {
-			talks.filter(_.event === eventId).take(1).result.headOption
+			talks.filter(_.event === eventId).take(1).result
 		}.asTwitterFuture
 	}
 

@@ -15,6 +15,7 @@ lazy val versions = new {
 lazy val commonSettings = Seq(
 	libraryDependencies ++= Seq(
 		"com.twitter" %% "finatra-http" % versions.finatra
+		, "com.twitter" %% "finatra-httpclient" % versions.finatra
 		, "ch.qos.logback" % "logback-classic" % versions.logback
 
 		, "com.typesafe.slick" %% "slick" % versions.slick
@@ -22,7 +23,8 @@ lazy val commonSettings = Seq(
 		, "com.zaxxer" % "HikariCP" % versions.hikaricp
 		, "org.flywaydb" % "flyway-core" % versions.flyway
 
-		, "com.github.racc" % "typesafeconfig-guice" % "0.0.3"
+		, "com.github.racc" % "typesafeconfig-guice" % "0.0.3" intransitive
+		, "org.reflections" % "reflections" % "0.9.10"
 		, "com.typesafe" % "config" % "1.3.1"
 	)
 )
@@ -86,6 +88,7 @@ lazy val dockerPackageSettings = Seq(
 		assembly.value
 	},
 	assemblyMergeStrategy in assembly := {
+		case PathList("javax", "annotation", xs@_*) => MergeStrategy.last
 		case "BUILD" => MergeStrategy.discard
 		case x if x.endsWith("io.netty.versions.properties") => MergeStrategy.discard
 		case other => MergeStrategy.defaultMergeStrategy(other)

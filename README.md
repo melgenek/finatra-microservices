@@ -10,5 +10,11 @@ See `docker-compose.yml`
 docker-compose up
 ```
 
+Useful flags
+
+```
+-admin.port=:0 -ttp.port=:0
+```
+
 
 

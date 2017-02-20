@@ -44,7 +44,7 @@ class TalkServiceTest extends FinatraFeatureTest {
 			path = "/talks/speakers/speaker2",
 			andExpect = Ok,
 			withJsonBody =
-				"""{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}"""
+				"""[{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}]"""
 		)
 	}
 
@@ -60,7 +60,7 @@ class TalkServiceTest extends FinatraFeatureTest {
 			path = "/talks/events/event2",
 			andExpect = Ok,
 			withJsonBody =
-				"""{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}"""
+				"""[{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}]"""
 		)
 	}
 
