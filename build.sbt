@@ -21,6 +21,9 @@ lazy val commonSettings = Seq(
 		, "com.h2database" % "h2" % versions.h2
 		, "com.zaxxer" % "HikariCP" % versions.hikaricp
 		, "org.flywaydb" % "flyway-core" % versions.flyway
+
+		, "com.github.racc" % "typesafeconfig-guice" % "0.0.3"
+		, "com.typesafe" % "config" % "1.3.1"
 	)
 )
 
@@ -107,8 +110,14 @@ lazy val `speaker-service` = project.in(file("speaker-service"))
 	.dependsOn(common % "compile->compile;test->test")
 	.enablePlugins(DockerPlugin)
 
+lazy val `service-tests` = project.in(file("service-tests"))
+	.settings(scalaVersionSettings)
+	.settings(noPackageSettings)
+	.dependsOn(common % "compile->compile;test->test")
+	.dependsOn(`talk-service`, `speaker-service`)
+
 lazy val root = project.in(file("."))
 	.settings(scalaVersionSettings)
 	.settings(noPackageSettings)
-	.aggregate(common, `talk-service`)
+	.aggregate(common, `talk-service`, `speaker-service`, `service-tests`)
 

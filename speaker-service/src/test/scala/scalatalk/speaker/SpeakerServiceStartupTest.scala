@@ -2,9 +2,10 @@ package scalatalk.speaker
 
 import com.google.inject.Stage
 import com.twitter.finatra.http.EmbeddedHttpServer
-import com.twitter.inject.server.FeatureTest
 
-class SpeakerServiceStartupTest extends FeatureTest {
+import scalatest.common.FinatraFeatureTest
+
+class SpeakerServiceStartupTest extends FinatraFeatureTest {
 
 	override val server = new EmbeddedHttpServer(
 		stage = Stage.PRODUCTION,

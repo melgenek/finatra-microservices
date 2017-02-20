@@ -2,9 +2,10 @@ package scalatalk.speaker
 
 import com.twitter.finagle.http.Status._
 import com.twitter.finatra.http.EmbeddedHttpServer
-import com.twitter.inject.server.FeatureTest
 
-class SpeakerServiceTest extends FeatureTest {
+import scalatest.common.FinatraFeatureTest
+
+class SpeakerServiceTest extends FinatraFeatureTest {
 
 	override def server = new EmbeddedHttpServer(new SpeakerServer)
 
@@ -12,8 +13,8 @@ class SpeakerServiceTest extends FeatureTest {
 		server.httpGet(
 			path = "/speakers/speaker1/simple",
 			andExpect = Ok,
-			withBody =
-				"""{"id":"speaker1","name":"Blue Elephant"}""".stripMargin
+			withJsonBody =
+				"""{"id":"speaker1","name":"Blue Elephant"}"""
 		)
 	}
 

@@ -1,4 +1,4 @@
-package db.migration
+package scalatalk.talk.db.migration
 
 import com.twitter.util.{Await, Future}
 

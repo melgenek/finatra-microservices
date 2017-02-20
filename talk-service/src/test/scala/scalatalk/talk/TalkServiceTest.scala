@@ -2,9 +2,10 @@ package scalatalk.talk
 
 import com.twitter.finagle.http.Status._
 import com.twitter.finatra.http.EmbeddedHttpServer
-import com.twitter.inject.server.FeatureTest
 
-class TalkServiceTest extends FeatureTest {
+import scalatest.common.FinatraFeatureTest
+
+class TalkServiceTest extends FinatraFeatureTest {
 
 	override def server = new EmbeddedHttpServer(new TalkServer)
 
@@ -12,9 +13,13 @@ class TalkServiceTest extends FeatureTest {
 		server.httpGet(
 			path = "/talks",
 			andExpect = Ok,
-			withBody =
-				"""[{"id":"1","speaker":"speaker1","event":"event1","title":"Talk 1"},{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}]"""
-					.stripMargin
+			withJsonBody =
+				"""
+				[
+					{"id":"1","speaker":"speaker1","event":"event1","title":"Talk 1"},
+					{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}
+				]
+				"""
 		)
 	}
 
@@ -22,8 +27,8 @@ class TalkServiceTest extends FeatureTest {
 		server.httpGet(
 			path = "/talks/1",
 			andExpect = Ok,
-			withBody =
-				"""{"id":"1","speaker":"speaker1","event":"event1","title":"Talk 1"}""".stripMargin
+			withJsonBody =
+				"""{"id":"1","speaker":"speaker1","event":"event1","title":"Talk 1"}"""
 		)
 	}
 
@@ -38,8 +43,8 @@ class TalkServiceTest extends FeatureTest {
 		server.httpGet(
 			path = "/talks/speakers/speaker2",
 			andExpect = Ok,
-			withBody =
-				"""{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}""".stripMargin
+			withJsonBody =
+				"""{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}"""
 		)
 	}
 
@@ -54,8 +59,8 @@ class TalkServiceTest extends FeatureTest {
 		server.httpGet(
 			path = "/talks/events/event2",
 			andExpect = Ok,
-			withBody =
-				"""{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}""".stripMargin
+			withJsonBody =
+				"""{"id":"2","speaker":"speaker2","event":"event2","title":"Talk 2"}"""
 		)
 	}
 

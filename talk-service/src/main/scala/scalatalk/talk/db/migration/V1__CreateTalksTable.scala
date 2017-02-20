@@ -1,4 +1,4 @@
-package db.migration
+package scalatalk.talk.db.migration
 
 import java.sql.Connection
 
