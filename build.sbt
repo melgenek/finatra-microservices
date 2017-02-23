@@ -23,8 +23,6 @@ lazy val commonSettings = Seq(
 		, "com.zaxxer" % "HikariCP" % versions.hikaricp
 		, "org.flywaydb" % "flyway-core" % versions.flyway
 
-		, "com.github.racc" % "typesafeconfig-guice" % "0.0.3" intransitive
-		, "org.reflections" % "reflections" % "0.9.10"
 		, "com.typesafe" % "config" % "1.3.1"
 	)
 )
@@ -64,6 +62,7 @@ lazy val noPackageSettings = Seq(
 )
 
 lazy val dockerPackageSettings = Seq(
+	test in assembly := {},
 	sbt.Keys.`package` := {
 		assembly.value
 		docker.value

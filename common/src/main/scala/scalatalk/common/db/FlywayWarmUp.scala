@@ -3,11 +3,11 @@ package scalatalk.common.db
 import javax.inject.Inject
 import javax.sql.DataSource
 
-import com.github.racc.tscg.TypesafeConfig
+import com.twitter.inject.annotations.Flag
 import com.twitter.inject.utils.Handler
 import org.flywaydb.core.Flyway
 
-class FlywayWarmUp @Inject()(dataSource: DataSource, @TypesafeConfig("package.name") packageName: String) extends Handler {
+class FlywayWarmUp @Inject()(dataSource: DataSource, @Flag("package.name") packageName: String) extends Handler {
 
 	override def handle(): Unit = {
 		val flyway = new Flyway()

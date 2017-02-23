@@ -11,22 +11,27 @@ import scalatalk.speaker.entity.{Speaker, SpeakerData}
 import scalatalk.talk.entity.Talk
 
 @Singleton
-class SpeakerService @Inject()(speakerDao: SpeakerDao, httpClient: HttpClient, mapper: FinatraObjectMapper) {
+class SpeakerService @Inject()(speakerDao: SpeakerDao, talkClient: HttpClient, mapper: FinatraObjectMapper) {
 
-	def findSpeakerById(speakerId: String): Future[Speaker] = {
-		speakerDao.findById(speakerId).flatMap {
-			case Some(speaker) => Future.value(speaker)
-			case None => Future.value(null)
-		}
+	def findSpeakerById(speakerId: String): Future[Option[Speaker]] = {
+		speakerDao.findById(speakerId)
 	}
 
-	def findSpeakerWithTalksById(speakerId: String): Future[SpeakerData] = {
+	def findSpeakerWithTalksById(speakerId: String): Future[Option[SpeakerData]] = {
 		for {
-			speaker <- findSpeakerById(speakerId)
-			talkResponse <- httpClient.execute(RequestBuilder.get(s"/talks/speakers/$speakerId"))
+			speakerById <- findSpeakerById(speakerId)
+			talkResponse <- talkClient.execute(RequestBuilder.get(s"/talks/speakers/$speakerId"))
 		} yield {
-			val talks = mapper.parse[List[Talk]](talkResponse.contentString)
-			SpeakerData(speaker.id, speaker.name, speaker.bio, talks)
+			speakerById match {
+				case Some(speaker) =>
+					if (talkResponse.statusCode == 200) {
+						val talks = mapper.parse[List[Talk]](talkResponse.contentString)
+						Some(SpeakerData(speaker.id, speaker.name, speaker.bio, talks))
+					} else {
+						Some(SpeakerData(speaker.id, speaker.name, speaker.bio))
+					}
+				case None => None
+			}
 		}
 	}
 

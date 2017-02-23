@@ -11,8 +11,9 @@ class V2__AddSampleSpeakers extends SlickMigration {
 	override def migrate(database: UnmanagedDatabase): Unit = {
 		val speakerDao = new SpeakerDao(database)
 		val f1 = speakerDao.create(Speaker("speaker1", "Blue Elephant"))
-		val f2 = speakerDao.create(Speaker("speaker2", "Red dog"))
-		Await.result(Future.join(f1, f2))
+		val f2 = speakerDao.create(Speaker("speaker2", "Red Dog"))
+		val f3 = speakerDao.create(Speaker("speaker3", "Yellow Fish"))
+		Await.result(Future.join(f1, f2, f3))
 	}
 
 }

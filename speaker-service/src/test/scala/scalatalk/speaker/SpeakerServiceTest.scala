@@ -20,7 +20,7 @@ class SpeakerServiceTest extends FinatraFeatureTest {
 
 	test("should get nobody when no speaker with id") {
 		server.httpGet(
-			path = "/speakers/speaker3/simple",
+			path = "/speakers/speaker4/simple",
 			andExpect = NotFound
 		)
 	}
