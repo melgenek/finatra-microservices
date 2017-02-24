@@ -1,24 +1,30 @@
-talk-service:
-  image: scalatalk/talk-service
-  command: -http.announce=zk!zookeeper:2181!/service/talk!0
-  links:
-   - zookeeper
-  ports:
-   - 8888:8888
-   - 9990:9990
-speaker-service:
-  image: scalatalk/speaker-service
-  command: -talk.service=talk-service:8888 -http.announce=zk!zookeeper:2181!/service/speaker!0
-  links:
-   - talk-service
-   - zookeeper
-  ports:
-   - 8889:8888
-   - 9991:9990
-zookeeper:
-  image: netflixoss/exhibitor:1.5.2
-  ports:
-   - "2181:2181"
-   - "2888:2888"
-   - "3888:3888"
-   - "8080:8080"
+version: '2'
+
+services:
+  talk-service:
+    image: scalatalk/talk-service
+    command: -http.announce=zk!zookeeper:2181!/service/talk!0
+    ports:
+     - 8888:8888
+     - 9990:9990
+  speaker-service:
+    image: scalatalk/speaker-service
+    command: -linkerd.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/speaker!0
+    ports:
+     - 8889:8888
+     - 9991:9990
+  zookeeper:
+    image: netflixoss/exhibitor:1.5.2
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888
+     - 8080:8080
+  linkerd:
+    image: buoyantio/linkerd:0.9.0
+    command: "/config.yaml"
+    volumes:
+     - ./linkerd/config.yaml:/config.yaml
+    ports:
+     - 9999:9999
+     - 4140:4140

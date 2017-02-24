@@ -18,7 +18,7 @@ class SpeakerServiceIntegrationService extends Test {
 	val speakerService = new EmbeddedHttpServer(new SpeakerServer,
 		flags = Map(
 			"db.name" -> "speakers",
-			"talk.service" -> talkService.externalHttpHostAndPort
+			"linkerd.location" -> talkService.externalHttpHostAndPort
 		)
 	)
 

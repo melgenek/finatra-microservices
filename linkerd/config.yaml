@@ -1,0 +1,18 @@
+admin:
+  port: 9999
+
+namers:
+- kind: io.l5d.serversets
+  zkAddrs:
+   - host: zookeeper
+     port: 2181
+
+routers:
+- protocol: http
+  dtab: |
+    /svc => /#/io.l5d.serversets/service;
+  httpAccessLog: logs/access.log
+  label: http
+  servers:
+  - port: 4140
+    ip: 0.0.0.0
