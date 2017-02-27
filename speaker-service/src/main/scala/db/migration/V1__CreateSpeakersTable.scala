@@ -1,4 +1,4 @@
-package scalatalk.speaker.db.migration
+package db.migration
 
 import com.twitter.util.Await
 

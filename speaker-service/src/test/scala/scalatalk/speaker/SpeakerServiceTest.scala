@@ -25,4 +25,20 @@ class SpeakerServiceTest extends FinatraFeatureTest {
 		)
 	}
 
+	test("should get existing speaker without talks when talk service unavailable") {
+		server.httpGet(
+			path = "/speakers/speaker1",
+			andExpect = Ok,
+			withJsonBody =
+				"""{"id":"speaker1","name":"Blue Elephant","talks":[]}"""
+		)
+	}
+
+	test("should get nobody when no speaker with id when talk service unavailable") {
+		server.httpGet(
+			path = "/speakers/speaker4",
+			andExpect = NotFound
+		)
+	}
+
 }

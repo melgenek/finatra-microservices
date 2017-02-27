@@ -7,6 +7,7 @@ import com.twitter.inject.Test
 import scalatalk.speaker.SpeakerServer
 import scalatalk.talk.TalkServer
 
+// TODO create real integration tests
 class SpeakerServiceIntegrationService extends Test {
 
 	val talkService = new EmbeddedHttpServer(new TalkServer,
