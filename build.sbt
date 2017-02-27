@@ -11,12 +11,14 @@ lazy val versions = new {
 	val flyway = "4.1.0"
 	val hikaricp = "2.4.5"
 	val finagle = "6.42.0"
+	val zipkin = "0.3.4"
 }
 
 lazy val commonSettings = Seq(
 	libraryDependencies ++= Seq(
 		"com.twitter" %% "finatra-http" % versions.finatra
 		, "com.twitter" %% "finatra-httpclient" % versions.finatra
+		, "io.zipkin.finagle" % "zipkin-finagle-http_2.11" % versions.zipkin
 		, "ch.qos.logback" % "logback-classic" % versions.logback
 		, "com.twitter" %% "finagle-serversets" % versions.finagle excludeAll(ExclusionRule(organization = "org.slf4j"), ExclusionRule(organization = "log4j"))
 

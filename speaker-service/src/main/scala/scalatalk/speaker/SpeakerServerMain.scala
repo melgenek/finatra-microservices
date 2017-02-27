@@ -14,6 +14,7 @@ class SpeakerServer extends ScalaTalkServer {
 	override def modules: Seq[TwitterModule] = Seq(TalkHttpModule) ++ super.modules
 
 	override protected def configureHttp(router: HttpRouter): Unit = {
+		super.configureHttp(router)
 		router.add[SpeakerController]
 	}
 

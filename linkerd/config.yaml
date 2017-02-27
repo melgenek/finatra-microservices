@@ -7,6 +7,12 @@ namers:
    - host: zookeeper
      port: 2181
 
+telemetry:
+- kind: io.l5d.zipkin
+  host: zipkin
+  port: 9410
+  sampleRate: 1.0
+
 routers:
 - protocol: http
   dtab: |

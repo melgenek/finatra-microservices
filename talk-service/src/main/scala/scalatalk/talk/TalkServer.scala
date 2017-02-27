@@ -10,6 +10,7 @@ object TalkServerMain extends TalkServer
 class TalkServer extends ScalaTalkServer {
 
 	override def configureHttp(router: HttpRouter): Unit = {
+		super.configureHttp(router)
 		router.add[TalkController]
 	}
 
