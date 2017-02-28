@@ -3,19 +3,13 @@ version: '2'
 services:
   talk-service:
     image: scalatalk/talk-service
-    command: -http.announce=zk!zookeeper:2181!/service/talk!0 -com.twitter.finagle.tracing.debugTrace=true
-    environment:
-     - zipkin.http.host=zipkin:9410
-     - zipkin.initialSampleRate=1.0
+    command: -http.announce=zk!zookeeper:2181!/service/talk!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=talk-service
     ports:
      - 8888:8888
      - 9990:9990
   speaker-service:
     image: scalatalk/speaker-service
-    command: -linkerd.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/speaker!0 -com.twitter.finagle.tracing.debugTrace=true
-    environment:
-     - zipkin.http.host=zipkin:9410
-     - zipkin.initialSampleRate=1.0
+    command: -linkerd.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/speaker!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=speaker-service
     ports:
      - 8889:8888
      - 9991:9990
@@ -34,33 +28,12 @@ services:
     ports:
      - 9999:9999
      - 4140:4140
-
-  # Zipkin
-  zipkin-mysql:
-    image: openzipkin/zipkin-mysql
   zipkin:
     image: openzipkin/zipkin
-    environment:
-      - STORAGE_TYPE=mysql
-      - MYSQL_HOST=zipkin-mysql
     ports:
       - 9410:9410
       - 9411:9411
-    depends_on:
-      - zipkin-mysql
-  zipkin-dependencies:
-    image: openzipkin/zipkin-dependencies
-    entrypoint: crond -f
-    environment:
-      - STORAGE_TYPE=mysql
-      - MYSQL_HOST=zipkin-mysql
-      - MYSQL_USER=zipkin
-      - MYSQL_PASS=zipkin
-    depends_on:
-      - zipkin-mysql
   zipkin-ui:
     image: openzipkin/zipkin-ui
     ports:
       - 8081:80
-    depends_on:
-      - zipkin

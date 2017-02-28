@@ -16,29 +16,12 @@ services:
     ports:
      - 9999:9999
      - 4140:4140
-    links:
-     - zookeeper
-
-  # Zipkin
-  zipkin-mysql:
-   image: openzipkin/zipkin-mysql
   zipkin:
-   image: openzipkin/zipkin
-   environment:
-     - STORAGE_TYPE=mysql
-     - MYSQL_HOST=zipkin-mysql
-   ports:
-     - 9410:9410
-     - 9411:9411
-   depends_on:
-     - zipkin-mysql
-  zipkin-dependencies:
-   image: openzipkin/zipkin-dependencies
-   entrypoint: crond -f
-   environment:
-     - STORAGE_TYPE=mysql
-     - MYSQL_HOST=zipkin-mysql
-     - MYSQL_USER=zipkin
-     - MYSQL_PASS=zipkin
-   depends_on:
-     - zipkin-mysql
+    image: openzipkin/zipkin
+    ports:
+      - 9410:9410
+      - 9411:9411
+  zipkin-ui:
+    image: openzipkin/zipkin-ui
+    ports:
+      - 8081:80

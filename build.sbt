@@ -78,7 +78,8 @@ lazy val dockerPackageSettings = Seq(
 		new Dockerfile {
 			from("java")
 			add(artifact, artifactTargetPath)
-			entryPoint("java", "-jar", artifactTargetPath)
+			// TODO remove system properties after https://github.com/openzipkin/zipkin-finagle/issues/24 fixed
+			entryPoint("java", "-Dzipkin.http.host=zipkin:9411", "-Dzipkin.initialSampleRate=1.0", "-jar", artifactTargetPath)
 			expose(8888)
 			expose(9990)
 		}
