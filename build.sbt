@@ -117,8 +117,14 @@ lazy val `speaker-service` = project.in(file("speaker-service"))
 	.dependsOn(common % "compile->compile;test->test")
 	.enablePlugins(DockerPlugin)
 
+lazy val `event-service` = project.in(file("event-service"))
+	.settings(scalaVersionSettings)
+	.settings(dockerPackageSettings)
+	.dependsOn(common % "compile->compile;test->test")
+	.enablePlugins(DockerPlugin)
+
 lazy val root = project.in(file("."))
 	.settings(scalaVersionSettings)
 	.settings(noPackageSettings)
-	.aggregate(common, `talk-service`, `speaker-service`)
+	.aggregate(common, `talk-service`, `speaker-service`, `event-service`)
 

@@ -31,7 +31,7 @@ class SpeakerService @Inject()(speakerDao: SpeakerDao, talkClient: HttpClient, m
 			speakerById match {
 				case Some(speaker) =>
 					if (talkResponse.statusCode == 200) {
-						val talks = mapper.parse[List[Talk]](talkResponse.contentString)
+						val talks = mapper.parse[Seq[Talk]](talkResponse.contentString)
 						Some(SpeakerData(speaker.id, speaker.name, speaker.bio, talks))
 					} else {
 						Some(SpeakerData(speaker.id, speaker.name, speaker.bio))

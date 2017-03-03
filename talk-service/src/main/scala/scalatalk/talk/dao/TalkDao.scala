@@ -39,7 +39,7 @@ class TalkDao @Inject()(db: JdbcBackend.DatabaseDef) {
 		db.run(talks += talk).asTwitterFuture
 	}
 
-	def getAll: Future[Seq[Talk]] = {
+	def findAll: Future[Seq[Talk]] = {
 		db.run(talks.result).asTwitterFuture
 	}
 
