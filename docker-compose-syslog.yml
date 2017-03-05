@@ -4,18 +4,30 @@ services:
   talk-service:
     image: scalatalk/talk-service
     command: -http.announce=zk!zookeeper:2181!/service/talk!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=talk-service
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://localhost:5000"
     ports:
      - 8888:8888
      - 9990:9990
   speaker-service:
     image: scalatalk/speaker-service
     command: -talk.service.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/speaker!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=speaker-service
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://localhost:5000"
     ports:
      - 8889:8888
      - 9991:9990
   event-service:
    image: scalatalk/event-service
    command: -talk.service.location=linkerd:4140 -speaker.service.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/event!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=event-service
+   logging:
+     driver: syslog
+     options:
+       syslog-address: "tcp://localhost:5000"
    ports:
     - 8887:8888
     - 9992:9990
