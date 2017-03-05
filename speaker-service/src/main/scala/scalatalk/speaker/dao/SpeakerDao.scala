@@ -6,9 +6,8 @@ import com.twitter.util.Future
 import slick.jdbc.JdbcBackend
 
 import scalatalk.common.module.SlickDatabaseModule.SlickDatabaseApi._
-import scalatalk.speaker.entity.Speaker
 import scalatalk.common.util.FutureUtils._
-import scalatalk.talk.entity.Talk
+import scalatalk.speaker.entity.Speaker
 
 class SpeakerDao @Inject()(db: JdbcBackend.DatabaseDef) {
 

@@ -13,7 +13,7 @@ import scalatalk.talk.entity.Talk
 class TalkController @Inject()(talkDao: TalkDao) extends Controller {
 
 	get("/talks") { _: Request =>
-		talkDao.getAll
+		talkDao.findAll
 	}
 
 	get("/talks/:id") { req: Request =>

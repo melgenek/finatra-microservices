@@ -9,10 +9,16 @@ services:
      - 9990:9990
   speaker-service:
     image: scalatalk/speaker-service
-    command: -linkerd.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/speaker!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=speaker-service
+    command: -talk.service.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/speaker!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=speaker-service
     ports:
      - 8889:8888
      - 9991:9990
+  event-service:
+   image: scalatalk/event-service
+   command: -talk.service.location=linkerd:4140 -speaker.service.location=linkerd:4140 -http.announce=zk!zookeeper:2181!/service/event!0 -com.twitter.finagle.tracing.debugTrace=true -http.name=event-service
+   ports:
+    - 8887:8888
+    - 9992:9990
   zookeeper:
     image: netflixoss/exhibitor:1.5.2
     ports:
@@ -31,8 +37,8 @@ services:
   zipkin:
     image: openzipkin/zipkin
     ports:
-      - 9410:9410
-      - 9411:9411
+     - 9410:9410
+     - 9411:9411
   zipkin-ui:
     image: openzipkin/zipkin-ui
     ports:

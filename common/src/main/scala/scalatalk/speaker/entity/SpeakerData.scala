@@ -6,6 +6,6 @@ case class SpeakerData(
 												id: String,
 												name: String,
 												bio: Option[String] = None,
-												talks: List[Talk] = List()
+												talks: Seq[Talk] = List()
 											)
 

@@ -7,7 +7,7 @@
     </appender>
 
     <logger name="scalatalk" level="DEBUG"/>
-    <logger name="com.twitter" level="WARN"/>
+    <logger name="com.twitter" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
