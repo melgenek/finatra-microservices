@@ -6,6 +6,7 @@ import com.twitter.finatra.http.filters.{CommonFilters, LoggingMDCFilter, TraceI
 import com.twitter.finatra.http.routing.HttpRouter
 
 import scalatalk.common.db.FlywayWarmUp
+import scalatalk.common.filter.LinkerdFilter
 import scalatalk.common.module.{HikariModule, SlickDatabaseModule}
 
 
@@ -17,6 +18,7 @@ abstract class ScalaTalkServer extends HttpServer {
 		router
 			.filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]
+			.filter[LinkerdFilter]
 			.filter[CommonFilters]
 	}
 

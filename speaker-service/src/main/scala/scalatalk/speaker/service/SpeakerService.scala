@@ -5,12 +5,13 @@ import javax.inject.{Inject, Singleton}
 import com.twitter.finagle.http.{Response, Status}
 import com.twitter.finatra.httpclient.{HttpClient, RequestBuilder}
 import com.twitter.finatra.json.FinatraObjectMapper
+import com.twitter.inject.Logging
 import com.twitter.util.Future
 
+import scalatalk.common.context.Linkerd
 import scalatalk.speaker.dao.SpeakerDao
 import scalatalk.speaker.entity.{Speaker, SpeakerData}
 import scalatalk.talk.entity.Talk
-import com.twitter.inject.Logging
 
 @Singleton
 class SpeakerService @Inject()(speakerDao: SpeakerDao, talkClient: HttpClient, mapper: FinatraObjectMapper) extends Logging {
@@ -22,7 +23,8 @@ class SpeakerService @Inject()(speakerDao: SpeakerDao, talkClient: HttpClient, m
 	def findSpeakerWithTalksById(speakerId: String): Future[Option[SpeakerData]] = {
 		for {
 			speakerById <- findSpeakerById(speakerId)
-			talkResponse <- talkClient.execute(RequestBuilder.get(s"/talks/speakers/$speakerId")) rescue {
+			talkResponse <- talkClient
+				.execute(RequestBuilder.get(s"/talks/speakers/$speakerId").headers(Linkerd.headers())) rescue {
 				case e =>
 					debug(s"Error calling talk service: $e")
 					Future.value(Response(Status.ServiceUnavailable))

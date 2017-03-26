@@ -24,6 +24,13 @@ http://localhost:8080/exhibitor/v1/ui/index.html
 ```
 
 ---
+To get Zipkin trace:
+
+```
+curl -H "Host: event" http://localhost:4140/events/event1
+```
+
+---
 To upload logs to elk use `docker-compose-elk.yml` and `docker-compose-syslog.yml`.
 
 To write logs to logstash via syslog elk stack should be started first.

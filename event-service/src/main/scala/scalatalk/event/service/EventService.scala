@@ -8,6 +8,7 @@ import com.twitter.finatra.json.FinatraObjectMapper
 import com.twitter.inject.Logging
 import com.twitter.util.Future
 
+import scalatalk.common.context.Linkerd
 import scalatalk.event.dao.EventDao
 import scalatalk.event.entity.{Event, EventData}
 import scalatalk.speaker.entity.Speaker
@@ -45,7 +46,9 @@ class EventService @Inject()(eventDao: EventDao,
 
 	private def getEventData(eventId: String): Future[Map[String, Seq[Talk]]] = {
 		for {
-			speakerToTalkPairs <- talkClient.execute(RequestBuilder.get(s"/talks/events/$eventId")).flatMap(handleTalkResponse)
+			speakerToTalkPairs <- talkClient.execute(
+				RequestBuilder.get(s"/talks/events/$eventId").headers(Linkerd.headers())
+			).flatMap(handleTalkResponse)
 		} yield {
 			speakerToTalkPairs
 				.filter {
@@ -70,7 +73,9 @@ class EventService @Inject()(eventDao: EventDao,
 	}
 
 	private def getSpeakerWithTalk(talk: Talk): Future[Option[(Speaker, Talk)]] = {
-		speakerClient.execute(RequestBuilder.get(s"/speakers/${talk.speaker}/simple")).map(speakerResponse => {
+		speakerClient.execute(
+			RequestBuilder.get(s"/speakers/${talk.speaker}").headers(Linkerd.headers())
+		).map(speakerResponse => {
 			if (speakerResponse.statusCode == 200) {
 				val speaker = mapper.parse[Speaker](speakerResponse.contentString)
 				Some((speaker, talk))
