@@ -4,22 +4,19 @@ import sbtassembly.AssemblyPlugin.autoImport._
 lazy val versions = new {
 	val finatra = "2.8.0"
 	val guice = "4.0"
-	val logback = "1.1.7"
+	val logback = "1.2.2"
 	val slf4j = "1.7.22"
 	val slick = "3.2.0-M2"
 	val h2 = "1.4.193"
 	val flyway = "4.1.0"
 	val hikaricp = "2.4.5"
 	val finagle = "6.42.0"
-	val zipkin = "0.3.4"
 }
 
 lazy val commonSettings = Seq(
 	libraryDependencies ++= Seq(
 		"com.twitter" %% "finatra-http" % versions.finatra
 		, "com.twitter" %% "finatra-httpclient" % versions.finatra
-		, "io.zipkin.finagle" % "zipkin-finagle-http_2.11" % versions.zipkin
-		, "ch.qos.logback" % "logback-classic" % versions.logback
 		, "com.twitter" %% "finagle-serversets" % versions.finagle excludeAll(ExclusionRule(organization = "org.slf4j"), ExclusionRule(organization = "log4j"))
 
 		, "com.typesafe.slick" %% "slick" % versions.slick
@@ -28,6 +25,10 @@ lazy val commonSettings = Seq(
 		, "org.flywaydb" % "flyway-core" % versions.flyway
 
 		, "com.typesafe" % "config" % "1.3.1"
+
+		, "ch.qos.logback" % "logback-classic" % versions.logback
+		, "net.logstash.logback" % "logstash-logback-encoder" % "4.9"
+
 	)
 )
 
@@ -78,7 +79,6 @@ lazy val dockerPackageSettings = Seq(
 		new Dockerfile {
 			from("java")
 			add(artifact, artifactTargetPath)
-			// TODO remove system properties after https://github.com/openzipkin/zipkin-finagle/issues/24 fixed
 			entryPoint("java", "-jar", artifactTargetPath)
 			expose(8888)
 			expose(9990)

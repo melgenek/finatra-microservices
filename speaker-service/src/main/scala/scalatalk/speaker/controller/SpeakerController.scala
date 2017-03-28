@@ -11,13 +11,14 @@ class SpeakerController @Inject()(speakerService: SpeakerService) extends Contro
 
 	get("/speakers/:id/simple") { req: Request =>
 		val speakerId = req.getParam("id")
+		info(s"Getting speaker $speakerId without talks")
 		speakerService.findSpeakerById(speakerId)
 	}
 
 	get("/speakers/:id") { req: Request =>
 		val speakerId = req.getParam("id")
+		info(s"Getting speaker $speakerId")
 		speakerService.findSpeakerWithTalksById(speakerId)
 	}
-
 
 }

@@ -13,21 +13,25 @@ import scalatalk.talk.entity.Talk
 class TalkController @Inject()(talkDao: TalkDao) extends Controller {
 
 	get("/talks") { _: Request =>
+		info("Getting all talks")
 		talkDao.findAll
 	}
 
 	get("/talks/:id") { req: Request =>
 		val talkId = req.getParam("id")
+		info(s"Getting talk $talkId")
 		talkDao.findById(talkId)
 	}
 
 	get("/talks/speakers/:speakerId") { req: Request =>
 		val speakerId = req.getParam("speakerId")
+		info(s"Getting talks for speaker $speakerId")
 		talkDao.findBySpeakerId(speakerId).flatMap(createResponse)
 	}
 
 	get("/talks/events/:eventId") { req: Request =>
 		val eventId = req.getParam("eventId")
+		info(s"Getting talks for event $eventId")
 		talkDao.findByEventId(eventId).flatMap(createResponse)
 	}
 

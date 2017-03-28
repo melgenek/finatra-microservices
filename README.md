@@ -17,6 +17,7 @@ See `docker-compose.yml`
 docker-compose up
 ```
 
+---
 Zookeeper UI
 
 ```
@@ -30,15 +31,24 @@ To get Zipkin trace:
 curl -H "Host: event" http://localhost:4140/events/event1
 ```
 
+Zipkin location:
+
+```
+http://localhost:9411/
+```
 ---
-To upload logs to elk use `docker-compose-elk.yml` and `docker-compose-syslog.yml`.
+Kibana takes some time to start! Located here: 
+```
+http://localhost:5601
+```
 
-To write logs to logstash via syslog elk stack should be started first.
-Syslog url is not resolved via docker dns:  https://github.com/docker/docker/issues/20370
-
+Check elastic log index
 
 ```
 GET /_cat/indices?v
+GET /logstash-2017.03.28/_search
+GET /logstash-2017.03.28
+DELETE  /logstash-2017.03.28
 ```
 ---
 Useful flags
@@ -46,6 +56,3 @@ Useful flags
 ```
 -admin.port=:0 -http.port=:0
 ```
-
-
-

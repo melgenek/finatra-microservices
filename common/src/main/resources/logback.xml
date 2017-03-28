@@ -2,7 +2,29 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date - %-5p %t %-0X{lTrace} %F:%L %m%n</pattern>
+            <pattern>%date - %-5p %t %-0X{traceId} %F:%L %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>logstash:5000</destination>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <context/>
+                <version/>
+                <logLevel/>
+                <loggerName/>
+
+                <threadName/>
+                <message/>
+
+                <logstashMarkers/>
+                <arguments/>
+
+                <stackTrace/>
+            </providers>
         </encoder>
     </appender>
 
@@ -11,10 +33,7 @@
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="STASH"/>
     </root>
-
-    <logger name="com.twitter.finatra.http.filters.AccessLoggingFilter" level="INFO" additivity="true">
-        <appender-ref ref="STDOUT"/>
-    </logger>
 
 </configuration>

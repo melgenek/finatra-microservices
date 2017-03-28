@@ -16,9 +16,9 @@ abstract class ScalaTalkServer extends HttpServer {
 
 	override protected def configureHttp(router: HttpRouter): Unit = {
 		router
+			.filter[LinkerdFilter]
 			.filter[LoggingMDCFilter[Request, Response]]
 			.filter[TraceIdMDCFilter[Request, Response]]
-			.filter[LinkerdFilter]
 			.filter[CommonFilters]
 	}
 
