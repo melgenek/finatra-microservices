@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  graphite:
+    image:  hopsoft/graphite-statsd
+    ports:
+      - 8082:80
+      - 2003:2003

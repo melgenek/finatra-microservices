@@ -11,6 +11,8 @@ lazy val versions = new {
 	val flyway = "4.1.0"
 	val hikaricp = "2.4.5"
 	val finagle = "6.42.0"
+	val finagleMetrics = "0.0.8"
+	val metrics = "3.2.2"
 }
 
 lazy val commonSettings = Seq(
@@ -18,6 +20,9 @@ lazy val commonSettings = Seq(
 		"com.twitter" %% "finatra-http" % versions.finatra
 		, "com.twitter" %% "finatra-httpclient" % versions.finatra
 		, "com.twitter" %% "finagle-serversets" % versions.finagle excludeAll(ExclusionRule(organization = "org.slf4j"), ExclusionRule(organization = "log4j"))
+
+		, "com.github.rlazoti" %% "finagle-metrics" % versions.finagleMetrics
+		, "io.dropwizard.metrics" % "metrics-graphite" % versions.metrics
 
 		, "com.typesafe.slick" %% "slick" % versions.slick
 		, "com.h2database" % "h2" % versions.h2
